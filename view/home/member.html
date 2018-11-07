@@ -1,0 +1,453 @@
+<%- include("../header.html", {}) %>
+<link rel="stylesheet" href="/css/plantdiary.css" type="text/css">
+<link rel="stylesheet" href="/css/Calendar.css" media="screen"  type="text/css">
+<%- include("../inner.html", { userName: userName }) %>
+<div class="container">
+    <div class="row">
+        <div class="container">
+            <div class="row">
+              <form method="post" action="/home/share" id="plantmood">
+                <div class="weather col-sm-6 offset-sm-3" style="max-height: 100px;">
+                    <div class="form-row">
+                    <div class="col">
+                        <label class="radio-inline" id="sunny"><input type="radio" name="mood"
+                        value="sunny">
+                          <img src="/img/sunny.png">
+                        </label>
+                    </div>    
+                    <div class="col">
+                        <label class="radio-inline" id="rain"><input type="radio" name="mood"
+                        value="rain">
+                          <img src="/img/rain.png">
+                        </label>
+                    </div>
+                    <div class="col">
+                        <label class="radio-inline" id="lightning"><input type="radio" name="mood"
+                        value="lightning">
+                          <img src="/img/lightning.png">
+                        </label>
+                    </div>
+                    </div>
+                </div>
+                <div id="debug"></div>
+        
+                
+                <div class="plant">
+                   
+                  <div id="p1">
+                      <div class="leaf middle item"></div>
+                      <div class="leaf left item"></div>
+                      <div class="leaf right item"></div>
+                      <div class="shadow item"></div>
+                      <div class="pot item"></div>
+                  </div>
+                  
+                </div>
+                
+                
+                <div class="toolMenu"  data-toggle="collapse" 
+                data-target=".inner" role="button" aria-expanded="false" aria-controls="water cut set">
+                  
+                    <div class="avatar">
+                      
+                    </div>
+                    <div class="inner">
+                      
+                      <div id="water" class="tools multi-collapse" role="button">
+                        <img id="imgwater" src="/img/water.png" />
+                      </div>
+                      <div id="cut" class="tools multi-collapse" role="button">
+                        <img id="imgcut" src="/img/cut.png" />
+                      </div>
+                      
+                      
+                    </div>
+                  </div>
+                
+                
+            
+                <div id="calendarDIV" data-toggle="modal" data-target="#calModal" data-toggle="your diary">
+                      <img id="imgcalendar" src="/img/calendar.png" />
+                </div>
+                
+                <div class="form-group" id="article">
+                    <textarea class="form-control" name="txtTextArea" id="txtTextArea"
+                      placeholder="writing diary or tell me a story..." 
+                      value="<%= diary %>"></textarea>
+                    <button class="custom-btn submit" type="submit">SAVE</button>
+                    
+              </form>
+              
+            </div>
+            
+             
+        </div>
+        
+        <!--calendar modal html-->
+        <div id="calModal" class="modal fade"  tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                      
+                  <!--    Title部分, 含Prev & Next  -->
+                  <div class="calendar">
+                      <div class="calendartitle">
+                          <h2 id="calendarmonth">Month</h2>
+                          <h4 class="yearstyle" id="calendaryear">Year</h4>
+                          <a class="" href="" id="prev">&lt;</a>
+                          <a class="" href="" id="next">&gt;</a>
+                      </div>
+                     <!--  日期部分   -->
+                      <div class="calendarbody">
+                          <div class="bodylist">
+                              <ul id="weekstyle">
+                              <li>SUN</li>
+                              <li>MON</li>
+                              <li>TUE</li>
+                              <li>WED</li>
+                              <li>THU</li>
+                              <li>FRI</li>
+                              <li>SAT</li>
+                              </ul>
+                          </div>
+                          <div class="bodylist">
+                              <ul id="days">
+                              </ul>
+                          </div>
+                      </div>
+                  </div>  
+                  <div class="card">
+                    <div class="card-body" style="width:450px; height:450px">
+                      <h6 class="card-subtitle mb-2 text-muted" id="txtLookDiaryDay">Card subtitle</h6>
+                      <p class="card-text" id="txtLookDiaryText">Some quick example **</p>
+                       <button type="button" class="btn btn-secondary cardbtn">back</button>
+                    </div>
+                  </div>                        
+                  
+                  <!--pastwriteday是後端傳入 上面diary是前端傳出-->
+                  <div id="txtPastWriteDay"><%- pastwriteday %></div>
+                 
+                </div>
+            </div>
+          </div>
+        </div>
+        
+        
+        <script src="/js/btf.js"></script>  
+        <script type="text/javascript">
+  
+
+          //tools 
+          $('#imgwater').click(function() {
+              $('.tools img').removeClass('active');
+              $('#water img').addClass('active');
+              $('.leaf.left').css("background-color", getRandomColor());
+              $('.leaf.right').css("background-color", getRandomColor());
+              $('.leaf.middle').css("background-color", getRandomColor());
+          })
+          
+          $('#imgcut').click(function() {
+              $('.tools img').removeClass('active');
+              $('#cut img').addClass('active');
+              
+              if(($('.leaf').width()) >= 20){
+                $('.leaf').animate({width: "-=5%"}, 2000);
+                 alert("謝謝你幫我修剪葉子");
+              }else
+                alert("快被你剪光了啦");
+          })
+          
+          
+          //weather button
+          $('#sunny').click(function(){
+            $('.weather img').removeClass('active');
+            $('#sunny img').addClass('active');
+           
+            $('#p1').removeClass();
+            $('#p1').addClass('sunglow');
+            $('.sunglow').addClass('changeSun');
+            
+            //console.log("sunny");
+            return false;
+          })
+          $('#rain').click(function(){
+            $('.weather img').removeClass('active');
+            $('#rain img').addClass('active');
+           
+            $('#p1').removeClass();
+            $('#p1').addClass('changeRain');
+            //console.log("rain");
+            return false;
+          })
+          $('#lightning').click(function(){
+            $('.weather img').removeClass('active');
+            $('#lightning img').addClass('active');
+           
+            $('#p1').removeClass();
+            $('#p1').addClass('changeStorm');
+            //console.log("lightning");
+            return false;
+          })
+         
+          
+          //random leaf color
+          function getRandomColor() {
+            var letters = "0123456789ABCDEF";
+            var color = "#";
+            for(var i = 0; i < 6; i++){
+              color += letters[Math.floor(Math.random() * 16)];
+              while(color == "#ade1e5"){
+                color = "#";
+                color += letters[Math.floor(Math.random() * 16)];
+              }
+            }
+            return color;
+          }
+          
+            //calendar
+                  var daysInMonthLeap = [31,29,31,30,31,30,31,31,30,31,30,31];  //潤年
+                  var daysInMonthNormal=[31,28,31,30,31,30,31,31,30,31,30,31];  // 非潤年
+                  var monthName=["January","Febrary","March","April","May","June","July","Auguest","September","October","November","December"];
+                  var container = document.getElementById("days");
+                  var titleMonth = document.getElementById("calendarmonth");
+                  var titleYear = document.getElementById("calendaryear");
+                  var prevMonth = document.getElementById("prev");
+                  var nextMonth = document.getElementById("next");
+                  var my_date = new Date();  
+                  var my_year = my_date.getFullYear();
+                  var my_month = my_date.getMonth();
+                  var my_day = my_date.getDate();
+                  
+                  var diaryRow = JSON.parse($("#txtPastWriteDay").html()); //資料庫中的日記
+                  
+                  var get_dbYMD = [];  //資料庫日記的日期物件
+                  
+                  
+                  //得到某年某月的第一天是星期幾 ,使用getDay()方法 , 星期天到星期六，對應到0 - 6 
+                  // 語法 :  Date.getDay()
+                  function startDay(year, month){        
+                      var tmp = new Date(year, month, 1);
+                      return (tmp.getDay());
+                  }
+                  //判断是否為潤年，得到該月有幾日
+                  //能被4整除而不能被100整除的，或者是能被400整除的
+                  //設定兩個判定條件的原因：如1800年不是潤年，但能被4整除
+                  function daysOfMonth(year, month){
+                      if( (year%4==0 && year%100!=0 )|| year%400==0 ){
+                          return (daysInMonthLeap[month]);
+                      }else{
+                          return (daysInMonthNormal[month]);
+                      }
+                  }
+                  
+                  diaryRow.forEach(function(item, index, array){
+                      var temp = item.create_date.toString();
+                      get_dbYMD.push({
+                      id : index,
+                      Y :  temp.slice(0,4),
+                      M :  temp.slice(5,7),
+                      D :  temp.slice(8,10),
+                      });
+                      //console.log(get_dbYMD[0]);
+                   })
+                   
+                  
+                  function generateDate(){
+                      var addDiaryArr = [];
+                      var addDiaryI = 0;
+                      var displayStr="";
+                      var daysSum = daysOfMonth(my_year, my_month);
+                      var firstDay = startDay(my_year, my_month);
+                      var myclass;
+                      for(var i=0; i<firstDay; i++){
+                          displayStr += "<li></li>"; 
+                      }
+                      
+                      
+                      for(var i=1; i<=daysSum; i++){
+                          if( (i<my_day && my_year==my_date.getFullYear()&&my_month==my_date.getMonth()) ||my_year<my_date.getFullYear() ||(my_year==my_date.getFullYear()&&my_month<my_date.getMonth())){
+                              myclass = " class='daywhite'";   //當天之前
+                          }else if ( i==my_day && my_year==my_date.getFullYear() && my_month==my_date.getMonth()){
+                              myclass = " class='daywhite todaybox'";    //當天
+                          }else{
+                              myclass = " class='daywhite'";       // 當天之後
+                          }
+                          
+                          var addDiaryDay ="";
+                          var changeI = "";
+                          
+                           //把整個月的天數html都寫好
+                          if( i < 10){
+                              changeI = "0" + i;
+                              addDiaryDay = my_year + "-" + (my_month+1) + "-" + changeI;
+                              displayStr += "<li" + myclass +"day="+changeI+">" + i +"</li>";
+                              
+                          }
+                          else{
+                            changeI = i;
+                            addDiaryDay = my_year + "-" + (my_month+1) + "-" + changeI;
+                            displayStr += "<li" + myclass +"day="+changeI+">" + i +"</li>";
+                            
+                          }
+                          
+                          container.innerHTML = displayStr;  //把全部的li加入
+                          titleMonth.innerHTML = monthName[my_month];
+                          titleYear.innerHTML= my_year;
+                          
+                          for(let v = 0; v < diaryRow.length; v++){
+                           
+                            if((get_dbYMD[v].M == addDiaryDay.slice(5,7))&&
+                              (get_dbYMD[v].Y == addDiaryDay.slice(0,4)) &&
+                              (get_dbYMD[v].D == addDiaryDay.slice(8,10))) 
+                            {
+                        
+                                  addDiaryI = i;
+                                  addDiaryArr.push((addDiaryI-1));
+                          
+                                  $(function(){
+                                  
+                                  for(var v=0; v<addDiaryArr.length; v++){
+                                    //console.log("tempi: "+addDiaryArr.length);
+                                    var target = document.getElementsByClassName("daywhite")[addDiaryArr[v]];
+                                    target.classList.add("diaryday");
+                                    //有寫日記的天數加入蝴蝶 class= diaryday
+                                  }
+                                })
+                                
+                            }
+                                
+                          }  
+                          
+                      }
+                      
+                  }
+                  generateDate();
+                  
+                  
+                  
+                  // Prev & Next Setting
+                  prevMonth.onclick = function(ev){
+                      ev.preventDefault();
+                      my_month--;
+                      if(my_month<0){
+                          my_year--;
+                          my_month = 11;
+                      }
+                      generateDate();
+                  }
+                  nextMonth.onclick = function(ev){
+                      ev.preventDefault();
+                      my_month++;
+                      if(my_month>11){
+                          my_year++;
+                          my_month=0;
+                      }
+                      generateDate();
+                  }
+                  
+                  function delegate(el, evt, sel, handler) {
+                      el.addEventListener(evt, function(event) {
+                          var t = event.target;
+                          while (t && t !== this) { //當一層層找到頂層HTML 跳出while
+                              if (t.matches(sel)) {
+                                  handler.call(t, event);
+                              }
+                              t = t.parentNode;
+                          }
+                      });
+                  }
+                  
+                  // JSON格式的 txtPastWriteDay 
+                  // [{"create_date":"2018-10-29T00:00:00.000Z",
+                  //   "diary":"五月不喜歡帶著恨意活下去\r\n她..}, 
+                  //   {"create_date":"2018-MM-DD....",
+                  //   "diary":"...."}]
+                 var get_clickdate =""; 
+                  
+                  //delegate is in calendar.js
+                  delegate(document, "click", ".daywhite", function(event) {
+                    var clickdate = event.target.textContent;
+                    for(var i = 0; i < 10; i++){
+                        if(clickdate == i){
+                            clickdate = "0" + clickdate;
+                        }
+                        
+                    }
+                    
+                    if((event.target.id != "next") || (event.target.id != "prev") ){
+                        var eventobject = event.target;
+                        get_clickdate = my_year + "-" + (my_month+1) + "-" + clickdate;
+                        
+                        checkdate(get_clickdate, eventobject);
+                        
+                    }    
+                  });         
+                  
+                  
+                  
+                  //印出點擊有日記的日期
+                  var tempstring =""; 
+                  function checkdate(get_clickdate, eventobject){
+                      diaryRow.forEach(function(item, index, array){
+                        
+                        tempstring = item.create_date.toString();
+                        tempstring = (tempstring.slice(0,10));
+                  
+                      
+                        if(get_clickdate.match(tempstring)){
+                             
+                            //console.log(get_clickdate);
+                            
+                            
+                            
+                            $('.calendar').hide(600);
+                            $('.card').show(600);
+                            $('#txtLookDiaryDay').html(get_clickdate);
+                            $('#txtLookDiaryText').html(item.diary);
+                            //console.log(item.diary);
+                            
+                        }    
+                      })
+                  }
+          
+                  $('.cardbtn').click(function() {
+                      $('.card').hide(600);
+                      $('.calendar').show(600);
+                      
+                  })
+                    
+                  
+          
+          //keyword
+          
+          $("#txtTextArea").keyup(function(){
+             var keyin = $("#txtTextArea").val();
+             
+             checkword(keyin);
+          })
+          
+          function checkword(keyin){
+            var keywords = ["happy birthday", "開心", "難過", "心情好","生日" ];
+            
+            function filterItems(query) {
+              return keywords.filter(function(el) {
+                  return query.toLowerCase().indexOf(el.toLowerCase()) > -1;
+              })
+            }
+            
+            if(filterItems(keyin).length != 0){
+              $('.leaf.left').css("background-color", "#FFA78B");
+              $('.leaf.right').css("background-color", "#B5F96B");
+              $('.leaf.middle').css("background-color", "#FFD547");
+              
+            }
+            
+            
+          }
+          
+         
+         
+        </script> 
+        
+      
+<%- include("../footer.html", {}) %>

@@ -1,0 +1,11 @@
+{
+    "name": "plantMVC",
+    "version": "0.0.2",
+    "main": "app.js",
+    "dependencies": {
+        "body-parser": "^1.7.0",
+        "ejs": "^1.0.0",
+        "express": "^4.8.7",
+        "express-session": "^1.7.6"
+    }
+}

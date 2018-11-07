@@ -1,0 +1,30 @@
+<%- include("../header.html", {}) %>
+<style>
+.login{
+    margin-top: 50px;
+    font-family: "微軟正黑體";
+}
+</style>
+<%- include("../inner.html", { userName: userName }) %>
+    <div class="container">
+        <div class="row login">        
+            <form method="post" action="" class="col-lg-6 col-sm-12 offset-lg-3" >
+                <div class="form-group">
+                    <input type="text" class="form-control"  name="txtID"
+                        id="txtID" value="<%= id %>" placeholder="請輸入帳號"  aria-describedby="userID"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control"  name="txtPassword"
+                        id="txtPassword" value="<%= password %>" placeholder="請輸入密碼" aria-describedby="Password" />
+                </div>
+                <div><%- errorMessage %></div>
+                <nav class="nav nav-pills justify-content-end">
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <a class="nav-link" href="/member/signup">Sign up</a>
+                </nav>
+           
+                
+            </form>
+            
+                
+<%- include("../footer.html", {}) %>

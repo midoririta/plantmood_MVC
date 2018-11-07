@@ -1,0 +1,20 @@
+<%- include("../header.html", {}) %>
+
+<link rel="stylesheet" href="/css/index.css"> 
+
+<%- include("../inner.html", { userName: userName }) %>
+<div class="container">
+    <div class="row">
+       <h1 class="name justify-content-center">Plant your mood</h1>
+       <div class="col-lg-6 col-sm-12 offset-lg-3">
+           <div class="box justify-content-center">
+                <h3>Hello! <%= userName %> </h3>
+                <div class="plant">
+                    <div class="p">
+                        <img src="/img/p2.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+<%- include("../footer.html", {}) %>

@@ -1,0 +1,96 @@
+/* calendar.css*/
+.calendar{
+    /*   搭配:    長x高   字體大小   如：400x400  15    or    600x600   21     or  800x800   30*/
+    height: 450px;      /* 可修改*/
+    width: 450px;       /* 可修改*/
+    font-size:20px;   /* 可修改*/
+    border-radius: 20px;
+    margin: auto;
+    color: #fff;
+    top: 16px;
+}
+
+/*下面的字體與行高等等都用百分比或em的形式
+只要上面修改font-size、width、height，下面會對應做出改變*/
+.calendartitle{
+    position: relative;
+    height: 18%;
+    text-align: center;
+}
+/*Prev & Next 箭頭*/
+.calendartitle a{
+    font-size: 2em;
+    text-decoration: none;
+    color: #77969A;
+}
+#prev{                                             
+    position: relative;
+    top:-2.0em;
+    left: -5em;
+}
+#next{
+    position: relative;
+    top:-2.0em;
+    left: 5em;
+}
+/*月曆顯示列*/
+.bodylist{
+    padding: 0px 10px;
+}
+.bodylist ul{
+    width:100%;
+    font-family:"goudy old style",san-serif;
+    font-weight:bold;
+    padding: 0px;
+    margin:0px;
+}
+
+.bodylist ul li{
+    width:14.28%;
+    height: 2.6em;
+    display:block;
+    float:left;
+    list-style-type:none;
+    line-height: 2.6em;
+    box-sizing:border-box;
+    text-align:center;
+}
+.monthstyle{
+   color:#fff;
+}
+.calendarbody #weekstyle li{
+    color:#2E5C6E; 
+    font-family: 微軟正黑體;
+}
+.daywhite{
+    color:#fff; 
+}
+.yearstyle{
+    font-size: 1.4em;
+    line-height: 1.0em;
+    background-color: initial;
+}
+.todaybox{
+    background:rgba(112,180,184,0.8); /*本日-背景*/
+    border-radius:100%;
+}
+.diaryday{
+    background-image: url(../img/butterfly.svg);
+    background-repeat: no-repeat;
+    background-size: 24px;
+    cursor: pointer;
+}
+
+
+/*bootstrap class調整*/
+.modal-content{
+    background-color: initial;
+    border: initial;
+}
+.modal-body{
+    border-radius: 3%;
+}
+.card{
+display: none;
+overflow-y: scroll;
+}
